@@ -1,2 +1,1 @@
-# kubesmith
-Kubernetes cluster management tool
+# KubeSmith
