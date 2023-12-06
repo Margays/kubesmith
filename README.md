@@ -1,1 +1,1 @@
-# kubesmith
+# KubeSmith
