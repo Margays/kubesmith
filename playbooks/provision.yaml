@@ -5,6 +5,7 @@
   roles:
     - facts
     - common
+    - disable_swap
     - cri/containerd
     - oci/runc
     - kubernetes
