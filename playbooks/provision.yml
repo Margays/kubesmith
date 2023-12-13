@@ -1,8 +1,0 @@
----
-- name: Setup nodes
-  hosts: all
-  become: true
-  roles:
-    - kubernetes/cri/containerd
-  vars:
-    cache_dir: /tmp/kubesmith

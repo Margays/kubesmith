@@ -1,0 +1,12 @@
+---
+- name: Setup nodes
+  hosts: all
+  become: true
+  roles:
+    - facts
+    - common
+    - cri/containerd
+    - oci/runc
+    - kubernetes
+  vars:
+    cache_dir: /tmp/kubesmith

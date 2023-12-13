@@ -1,0 +1,3 @@
+- name: Set arch facts
+  ansible.builtin.set_fact:
+    facts_os_arch: "{{ [ansible_architecture] | map('extract', facts_deb_architecture) | first }}"

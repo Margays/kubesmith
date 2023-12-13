@@ -1,0 +1,45 @@
+- name: Configure kubernetes repository
+  ansible.builtin.deb822_repository:
+    name: kubernetes
+    types: [deb]
+    uris: "https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/deb/"
+    suites: ["/"]
+    signed_by: https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key
+    state: present
+    enabled: true
+  tags:
+    - kubernetes
+
+- name: Unhold packages
+  ansible.builtin.dpkg_selections:
+    name: "{{ item }}"
+    selection: install
+  loop:
+    - kubeadm
+    - kubectl
+    - kubelet
+  failed_when: false
+  tags:
+    - kubernetes
+
+- name: Install packages
+  ansible.builtin.apt:
+    name:
+      - kubeadm
+      - kubectl
+      - kubelet
+    update_cache: true
+    state: present
+  tags:
+    - kubernetes
+
+- name: Hold packages
+  ansible.builtin.dpkg_selections:
+    name: "{{ item }}"
+    selection: install
+  loop:
+    - kubeadm
+    - kubectl
+    - kubelet
+  tags:
+    - kubernetes
