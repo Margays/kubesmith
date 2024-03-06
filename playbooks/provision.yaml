@@ -6,8 +6,8 @@
     - facts
     - common
     - disable_swap
-    - cri/containerd
-    - oci/runc
-    - kubernetes
+    - kubernetes/cri/containerd
+    - kubernetes/oci/runc
+    - kubernetes/core
   vars:
     cache_dir: /tmp/kubesmith

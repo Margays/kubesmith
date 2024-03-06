@@ -1,0 +1,99 @@
+- name: Ensure /var/lib/cni exists
+  file:
+    path: /var/lib/cni
+    state: directory
+    mode: "0755"
+
+- name: Configure kubernetes repository
+  ansible.builtin.deb822_repository:
+    name: kubernetes
+    types: [deb]
+    uris: "https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/deb/"
+    suites: ["/"]
+    signed_by: https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/deb/Release.key
+    state: present
+    enabled: true
+  tags:
+    - kubernetes
+
+- name: Unhold packages
+  ansible.builtin.dpkg_selections:
+    name: "{{ item }}"
+    selection: install
+  loop:
+    - kubeadm
+    - kubectl
+    - kubelet
+  failed_when: false
+  tags:
+    - kubernetes
+
+- name: Install packages
+  ansible.builtin.apt:
+    name:
+      - kubeadm
+      - kubectl
+      - kubelet
+    update_cache: true
+    state: present
+  tags:
+    - kubernetes
+
+- name: Hold packages
+  ansible.builtin.dpkg_selections:
+    name: "{{ item }}"
+    selection: install
+  loop:
+    - kubeadm
+    - kubectl
+    - kubelet
+  tags:
+    - kubernetes
+
+- name: Enable br_netfilter module
+  community.general.modprobe:
+    name: br_netfilter
+    state: present
+  tags:
+    - kubernetes
+
+- name: Persist netfilter kernel module
+  ansible.builtin.copy:
+    content: br_netfilter
+    dest: /etc/modules-load.d/netfilter.conf
+    owner: root
+    group: root
+    mode: "0644"
+  tags:
+    - kubernetes
+
+- name: Configure ip_forward
+  ansible.builtin.copy:
+    content: "1"
+    dest: /proc/sys/net/ipv4/ip_forward
+    unsafe_writes: true
+  tags:
+    - kubernetes
+    - ip_forward
+
+- name: Check if bridge-nf-call-iptables key exists
+  command: "sysctl net.bridge.bridge-nf-call-iptables"
+  changed_when: false
+  check_mode: no
+  failed_when: false
+  tags:
+    - kubernetes
+
+- name: Enable bridge-nf-call tables
+  ansible.posix.sysctl:
+    name: "{{ item }}"
+    reload: yes
+    state: present
+    sysctl_file: "/etc/sysctl.d/99-sysctl.conf"
+    value: "1"
+  with_items:
+    - net.bridge.bridge-nf-call-iptables
+    - net.bridge.bridge-nf-call-arptables
+    - net.bridge.bridge-nf-call-ip6tables
+  tags:
+    - kubernetes
