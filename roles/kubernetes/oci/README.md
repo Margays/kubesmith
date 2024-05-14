@@ -1,1 +1,0 @@
-# OCI - Open Container Initiative

@@ -1,0 +1,5 @@
+---
+# vars file for runc
+oci_runc_cache_dir: "{{ cache_dir }}/runc"
+oci_runc_release_url: |-
+  https://github.com/opencontainers/runc/releases/download/v{{ oci_runc_version }}/runc.amd64

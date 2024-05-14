@@ -1,6 +1,0 @@
-cri_containerd_cache_dir: "{{ cache_dir }}/containerd"
-cri_containerd_release_url: |-
-  https://github.com/containerd/containerd/releases/download/v{{ cri_containerd_version }}
-  /containerd-{{ cri_containerd_version }}-linux-amd64.tar.gz
-
-cri_containerd_systemd_file_url: https://raw.githubusercontent.com/containerd/containerd/main/containerd.service
