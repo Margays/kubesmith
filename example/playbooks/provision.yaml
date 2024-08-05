@@ -1,0 +1,17 @@
+---
+- name: Setup nodes
+  hosts: k8s_cluster
+  become: true
+  roles:
+    - role: kubesmith.cri.containerd
+      vars:
+        cri_containerd_version: "1.7.20"
+    - role: kubesmith.oci.runc
+      vars:
+        oci_runc_version: "1.1.13"
+    # - role: kubesmith.k8s.runc
+    #   vars:
+    #     oci_runc_version: "1.1.13"
+    # - kubernetes/core
+  vars:
+    cache_dir: /tmp/kubesmith

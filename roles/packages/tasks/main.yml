@@ -1,8 +1,0 @@
-- name: Install required packages
-  ansible.builtin.apt:
-    name:
-      - ca-certificates
-    update_cache: true
-    state: present
-  tags:
-    - packages

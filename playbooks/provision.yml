@@ -1,6 +1,0 @@
----
-- name: Setup nodes
-  hosts: all
-  become: true
-  roles:
-    - packages
