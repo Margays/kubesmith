@@ -9,9 +9,8 @@
     - role: kubesmith.oci.runc
       vars:
         oci_runc_version: "1.1.13"
-    # - role: kubesmith.k8s.runc
-    #   vars:
-    #     oci_runc_version: "1.1.13"
-    # - kubernetes/core
+    - role: kubesmith.k8s.core
+      vars:
+        k8s_core_kubernetes_version: "1.30"
   vars:
     cache_dir: /tmp/kubesmith
