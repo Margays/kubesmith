@@ -1,7 +1,0 @@
-facts_deb_architecture: {
-  "aarch64": "arm64",
-  "armv6l": "armhf",
-  "armv7l": "armhf",
-  "i386": "i386",
-  "x86_64": "amd64",
-}
