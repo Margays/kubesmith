@@ -1,0 +1,15 @@
+---
+# tasks file for swap
+- name: Manage swap file entry in fstab.
+  mount:
+    fstype: swap
+    name: none
+    opts: sw
+    src: "{{ common_swap_file_path }}"
+    state: "{{ common_swap_state }}"
+
+- include_tasks: remove.yml
+  when: common_swap_state == 'absent'
+
+- include_tasks: create.yml
+  when: common_swap_state == 'present' and common_swap_size_mb > 0

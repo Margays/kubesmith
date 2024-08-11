@@ -49,3 +49,22 @@
     state: started
     enabled: true
     daemon_reload: true
+
+- name: Ensure containerd config dir exists
+  ansible.builtin.file:
+    path: "{{ cri_containerd_config_dir }}"
+    state: directory
+    
+
+- name: Configure containerd
+  ansible.builtin.copy:
+    src: "{{ cri_containerd_config_file }}"
+    dest: "{{ cri_containerd_config_dst }}"
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Restart containerd
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

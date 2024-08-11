@@ -1,2 +1,8 @@
 ---
 # handlers file for containerd
+- name: Restart containerd
+  ansible.builtin.systemd:
+    name: containerd
+    state: restarted
+    enabled: true
+    daemon_reload: true

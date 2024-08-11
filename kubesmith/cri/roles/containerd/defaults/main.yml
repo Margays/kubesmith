@@ -1,3 +1,6 @@
 ---
 # defaults file for containerd
 cri_containerd_version: "1.7.20"
+cri_containerd_config_file: etc/containerd/config.toml
+cri_containerd_config_dir: /etc/containerd
+cri_containerd_config_dst: "{{ cri_containerd_config_dir }}/config.toml"

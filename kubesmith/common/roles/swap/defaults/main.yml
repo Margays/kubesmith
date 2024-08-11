@@ -1,0 +1,7 @@
+---
+# defaults file for swap
+common_swap_allow_resize: false
+common_swap_file_path: /swap.img
+common_swap_size_bytes: "{{ 1024 | pow(3) }}"
+common_swap_state: present
+common_swap_swappiness: 10

@@ -7,6 +7,7 @@ ANSIBLE_USER := margay
 
 .PHONY: example-ansible-requirements
 example-ansible-requirements:
+	cd $(ANSIBLE_DIR)
 	test -d $(ANSIBLE_DIR)/.venv || python3 -m virtualenv $(ANSIBLE_DIR)/.venv
 	. $(ANSIBLE_DIR)/.venv/bin/activate
 	pip install -r $(ANSIBLE_DIR)/requirements.txt
