@@ -21,7 +21,5 @@ example-provision: example-ansible-requirements
 
 .PHONY: release
 release:
-	ifndef GALAXY_API_KEY
-		$(error GALAXY_API_KEY is not set)
-	endif
-	bash $(MKFILE_DIR)/.github/scripts/release.sh $(GALAXY_API_KEY)
+	echo "Releasing role to Ansible Galaxy"
+	bash $(MKFILE_DIR)/.github/scripts/release.sh $(GALAXY_API_KEY) $(COLLECTION_NAME)
