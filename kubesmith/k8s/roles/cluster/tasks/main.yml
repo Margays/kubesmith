@@ -1,0 +1,17 @@
+---
+# tasks file for kubeadm
+
+- name: Get kubelet version
+  ansible.builtin.command:
+    cmd: kubelet --version
+  register: kubelet_version
+
+- name: Create kubeadm configuration file
+  ansible.builtin.template:
+    src: etc/kubernetes/kubeadm_init.yaml.j2
+    dest: /etc/kubernetes/kubeadm_init.yaml
+
+- name: Kubeadm init
+  ansible.builtin.command:
+    cmd: kubeadm init --config=/etc/kubernetes/kubeadm_init.yaml
+  register: kubeadm_init

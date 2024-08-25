@@ -1,0 +1,4 @@
+---
+# defaults file for kubeadm
+k8s_cluster_local_api_endpoint: "192.168.4.3"
+k8s_cluster_local_api_bind_port: 6443
