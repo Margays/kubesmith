@@ -15,3 +15,5 @@
   ansible.builtin.command:
     cmd: kubeadm init --config=/etc/kubernetes/kubeadm_init.yaml
   register: kubeadm_init
+  run_once: true
+  delegate_to: "{{ groups['kube_control_plane'] | first }}"
