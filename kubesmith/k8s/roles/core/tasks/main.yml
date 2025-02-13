@@ -6,7 +6,7 @@
     types: [deb]
     uris: "https://pkgs.k8s.io/core:/stable:/v{{ k8s_core_kubernetes_version }}/deb/"
     suites: ["/"]
-    signed_by: https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key
+    signed_by: https://pkgs.k8s.io/core:/stable:/v{{ k8s_core_kubernetes_version }}/deb/Release.key
     state: present
     enabled: true
   tags:
