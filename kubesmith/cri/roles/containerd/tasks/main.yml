@@ -25,17 +25,20 @@
     mode: '0755'
 
 - name: Setup containerd in /usr/local
+  become: true
   ansible.builtin.unarchive:
     src: "{{ cri_containerd_cache_dir }}/containerd.tar.gz"
     dest: /usr/local
 
 - name: Create containerd.service dir
+  become: true
   ansible.builtin.file:
     path: /usr/local/lib/systemd/system/
     state: directory
     mode: '0755'
 
 - name: Create containerd.service
+  become: true
   ansible.builtin.copy:
     src: "{{ cri_containerd_cache_dir }}/containerd.service"
     dest: /usr/local/lib/systemd/system/containerd.service
@@ -44,6 +47,7 @@
     mode: '0644'
 
 - name: Enable containerd.service
+  become: true
   ansible.builtin.systemd_service:
     name: containerd
     state: started
@@ -51,12 +55,14 @@
     daemon_reload: true
 
 - name: Ensure containerd config dir exists
+  become: true
   ansible.builtin.file:
     path: "{{ cri_containerd_config_dir }}"
     state: directory
     
 
 - name: Configure containerd
+  become: true
   ansible.builtin.copy:
     src: "{{ cri_containerd_config_file }}"
     dest: "{{ cri_containerd_config_dst }}"

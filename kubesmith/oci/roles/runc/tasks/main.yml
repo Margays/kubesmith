@@ -17,6 +17,7 @@
     mode: '0755'
 
 - name: Setup runc
+  become: true
   ansible.builtin.copy:
     src: "{{ oci_runc_cache_dir }}/runc.amd64"
     dest: /usr/local/sbin/runc
