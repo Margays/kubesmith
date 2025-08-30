@@ -1,7 +1,14 @@
+# address=192.168.4.3 mac-address=BC:24:11:47:35:BE
+# address=192.168.4.4 mac-address=BC:24:11:22:90:53
+# address=192.168.4.5 mac-address=BC:24:11:8D:F2:48
 all:
   hosts:
     k8s01:
       ansible_host: 192.168.4.3
+    k8s02:
+      ansible_host: 192.168.4.4
+    k8s03:
+      ansible_host: 192.168.4.5
   children:
     kube_control_plane:
       hosts:
