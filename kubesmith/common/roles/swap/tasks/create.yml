@@ -1,18 +1,18 @@
 - name: Ensure swap file does not already exist
   become: true
-  stat:
+  ansible.builtin.stat:
     path: "{{ swap_file_path }}"
   register: swap_file_stat
 
 - name: Create swap file
   become: true
-  command: fallocate -l {{ common_swap_file_size }} {{ common_swap_file_path }}
+  ansible.builtin.command: fallocate -l {{ common_swap_file_size }} {{ common_swap_file_path }}
   when: not swap_file_stat.stat.exists
   register: swap_file_create
 
 - name: Set permissions on swap file
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ common_swap_file_path }}"
     owner: root
     group: root
@@ -21,7 +21,7 @@
 
 - name: Initialize swap file
   become: true
-  command: mkswap {{ common_swap_file_path }}
+  ansible.builtin.command: mkswap {{ common_swap_file_path }}
   when: swap_file_create is changed
   register: mkswap_result
 
@@ -32,7 +32,7 @@
 
 - name: Set swappiness
   become: true
-  sysctl:
+  ansible.builtin.sysctl:
     name: vm.swappiness
     value: "{{ common_swap_swappiness }}"
     state: present

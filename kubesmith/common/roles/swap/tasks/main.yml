@@ -1,7 +1,8 @@
 ---
 # tasks file for swap
 - name: Manage swap file entry in fstab.
-  mount:
+  become: true
+  ansible.builtin.mount:
     fstype: swap
     name: none
     opts: sw

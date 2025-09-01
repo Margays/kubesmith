@@ -5,14 +5,14 @@ ANSIBLE_USER := margay
 
 .ONESHELL:
 
-.PHONY: example-ansible-requirements
-example-ansible-requirements:
+.PHONY: ansible-requirements
+ansible-requirements:
 	cd $(ANSIBLE_DIR)
 	pip install -r $(ANSIBLE_DIR)/requirements.txt
 	ansible-galaxy collection install --force-with-deps -r $(ANSIBLE_DIR)/requirements.yml
 
-.PHONY: example-provision
-example-provision: example-ansible-requirements
+.PHONY: provision
+provision: ansible-requirements
 	cd $(ANSIBLE_DIR)
 	ansible-playbook -i $(ANSIBLE_INVENTORY_DIR)/main.yaml $(ANSIBLE_DIR)/playbooks/provision.yaml -u $(ANSIBLE_USER) -K
 

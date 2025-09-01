@@ -17,5 +17,17 @@
 	"mounts": [
     	"type=bind,source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/${localEnv:USER}/.ssh,readonly"
 	],
-	"remoteUser": "${localEnv:USER}"
+	"remoteUser": "${localEnv:USER}",
+	"customizations": {
+        "vscode": {
+            "extensions": [
+                "GitHub.copilot",
+                "GitHub.copilot-chat"
+            ],
+            "settings": {
+                "editor.formatOnSave": true,
+                "terminal.integrated.shell.linux": "/usr/bin/bash"
+            }
+        }
+    }
 }

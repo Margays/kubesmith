@@ -1,2 +1,3 @@
 ---
 # vars file for cilium
+cni_cilium_cache_dir: /{{ cache_dir }}/cilium

@@ -1,2 +1,63 @@
 ---
-# tasks file for cilium
+- name: Get latest Cilium CLI version
+  ansible.builtin.uri:
+    url: https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt
+    return_content: yes
+  register: cilium_cli_version
+
+- name: Set CLI architecture fact
+  set_fact:
+    cilium_cli_arch: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}"
+
+- name: Create cache dir
+  delegate_to: localhost
+  run_once: true
+  ansible.builtin.file:
+    path: "{{ cni_cilium_cache_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Download Cilium CLI tarball
+  delegate_to: localhost
+  run_once: true
+  ansible.builtin.get_url:
+    url: "https://github.com/cilium/cilium-cli/releases/download/{{ cilium_cli_version.content | trim }}/cilium-linux-{{ cilium_cli_arch }}.tar.gz"
+    dest: "{{ cni_cilium_cache_dir }}/cilium-linux-{{ cilium_cli_arch }}.tar.gz"
+    mode: '0644'
+
+# - name: Download Cilium CLI sha256sum
+#   delegate_to: localhost
+#   run_once: true
+#   ansible.builtin.get_url:
+#     url: "https://github.com/cilium/cilium-cli/releases/download/{{ cilium_cli_version.content | trim }}/cilium-linux-{{ cilium_cli_arch }}.tar.gz.sha256sum"
+#     dest: "{{ cni_cilium_cache_dir }}/cilium-linux-{{ cilium_cli_arch }}.tar.gz.sha256sum"
+#     mode: '0644'
+
+# - name: Verify Cilium CLI tarball checksum
+#   delegate_to: localhost
+#   run_once: true
+#   ansible.builtin.command:
+#     cmd: "sha256sum --check {{ cni_cilium_cache_dir }}/cilium-linux-{{ cilium_cli_arch }}.tar.gz.sha256sum"
+#   args:
+#     chdir: /tmp
+#   register: sha256_check
+#   failed_when: "'OK' not in sha256_check.stdout"
+
+- name: Extract Cilium CLI to /usr/local/bin
+  become: true
+  ansible.builtin.unarchive:
+    src: "{{ cni_cilium_cache_dir }}/cilium-linux-{{ cilium_cli_arch }}.tar.gz"
+    dest: /usr/local/bin
+  args:
+    creates: /usr/local/bin/cilium
+
+- name: Ensure Cilium CLI is executable
+  become: true
+  ansible.builtin.file:
+    path: /usr/local/bin/cilium
+    mode: '0755'
+
+- name: Install Cilium
+  become: true
+  ansible.builtin.command:
+    cmd: "cilium install --version {{ cni_cilium_version }}"

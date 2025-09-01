@@ -17,3 +17,17 @@
   ansible.builtin.command:
     cmd: kubeadm init --config=/etc/kubernetes/kubeadm_init.yaml
   register: kubeadm_init
+
+- name: Create .kube directory
+  become: true
+  ansible.builtin.file:
+    path: /root/.kube
+    state: directory
+    mode: '0700'
+
+- name: Copy admin.conf to .kube directory
+  become: true
+  ansible.builtin.copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /root/.kube/config
+    remote_src: yes
