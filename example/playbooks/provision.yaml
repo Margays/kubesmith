@@ -15,8 +15,6 @@
       vars:
         k8s_core_kubernetes_version: "1.33"
     - role: kubesmith.k8s.cluster
-      vars:
-        k8s_core_kubernetes_version: "1.33"
     - role: kubesmith.cni.cilium
       vars:
         cni_cilium_version: "1.18.1"
