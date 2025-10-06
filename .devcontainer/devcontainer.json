@@ -11,9 +11,7 @@
 			"REMOTE_GID": "${localEnv:REMOTE_GID:1000}"
 		}
 	},
-	"features": {
-		"ghcr.io/devcontainers-extra/features/ansible:2": {}
-	},
+	"features": {},
 	"mounts": [
     	"type=bind,source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/${localEnv:USER}/.ssh,readonly"
 	],
