@@ -1,31 +1,46 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-dockerfile
 {
-	"name": "Existing Dockerfile",
+	"name": "Rust",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"build": {
 		"context": "..",
 		"dockerfile": "../Dockerfile",
+		"target": "workspace",
 		"args": {
 			"REMOTE_USER": "${localEnv:USER}",
 			"REMOTE_UID": "${localEnv:REMOTE_UID:1000}",
 			"REMOTE_GID": "${localEnv:REMOTE_GID:1000}"
 		}
 	},
-	"features": {},
 	"mounts": [
-    	"type=bind,source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/${localEnv:USER}/.ssh,readonly"
+		"type=bind,source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/${localEnv:USER}/.ssh,readonly"
 	],
 	"remoteUser": "${localEnv:USER}",
+	"hostRequirements": {
+		"cpus": 2,
+		"memory": "8gb",
+		"storage": "32gb"
+	},
+	"features": {},
 	"customizations": {
-        "vscode": {
-            "extensions": [
-                "GitHub.copilot",
-                "GitHub.copilot-chat"
-            ],
-            "settings": {
-                "editor.formatOnSave": true,
-                "terminal.integrated.shell.linux": "/usr/bin/bash"
-            }
-        }
-    }
+		"codespaces": {
+			"openFiles": [
+				"src/main.rs"
+			]
+		},
+		"vscode": {
+			"extensions": [
+				"GitHub.copilot",
+				"GitHub.copilot-chat",
+				"rust-lang.rust-analyzer",
+				"fill-labs.dependi"
+			],
+			"settings": {
+				"editor.formatOnSave": true,
+				"terminal.integrated.shell.linux": "/usr/bin/bash",
+				"files.insertFinalNewline": true
+			}
+		}
+	}
 }
